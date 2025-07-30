@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - NexaLearn Affiliate System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="../styles/styles.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background: var(--gradient-primary);">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-user-shield me-2"></i>
+                NexaLearn - Admin Portal
+            </a>
+            <div class="navbar-nav ms-auto">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user-circle me-1"></i>
+                        <span id="navUsername">Admin</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="container">
+            <div id="alertContainer"></div>
+
+            <!-- Welcome Header -->
+            <div class="dashboard-header slide-up">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h1 class="welcome-text mb-2">Admin Dashboard</h1>
+                        <p class="text-muted mb-0">Manage the affiliate system and approve redemptions</p>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <button class="btn btn-success" id="refreshDataBtn">
+                            <i class="fas fa-sync-alt me-2"></i>Refresh Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Stats -->
+            <div class="row mb-4">
+                <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                    <div class="stats-card info fade-in">
+                        <div class="stats-number" id="totalTeachers">0</div>
+                        <div class="stats-label">Teachers</div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                    <div class="stats-card success fade-in">
+                        <div class="stats-number" id="totalStudents">0</div>
+                        <div class="stats-label">Students</div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                    <div class="stats-card warning fade-in">
+                        <div class="stats-number" id="totalReferrals">0</div>
+                        <div class="stats-label">Referrals</div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                    <div class="stats-card danger fade-in">
+                        <div class="stats-number" id="pendingRedemptions">0</div>
+                        <div class="stats-label">Pending</div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                    <div class="stats-card fade-in">
+                        <div class="stats-number" id="pendingAmount">$0</div>
+                        <div class="stats-label">Pending $</div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                    <div class="stats-card fade-in">
+                        <div class="stats-number" id="totalCredits">$0</div>
+                        <div class="stats-label">Total Credits</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <ul class="nav nav-pills mb-4">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#pending-redemptions" data-bs-toggle="tab">
+                        <i class="fas fa-clock me-2"></i>Pending Redemptions
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#all-redemptions" data-bs-toggle="tab">
+                        <i class="fas fa-history me-2"></i>All Redemptions
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#teachers" data-bs-toggle="tab">
+                        <i class="fas fa-chalkboard-teacher me-2"></i>Teachers
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#top-performers" data-bs-toggle="tab">
+                        <i class="fas fa-trophy me-2"></i>Top Performers
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Pending Redemptions Tab -->
+                <div class="tab-pane fade show active" id="pending-redemptions">
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <h5><i class="fas fa-clock me-2"></i>Pending Redemptions</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table" id="pendingRedemptionsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Teacher</th>
+                                            <th>Amount</th>
+                                            <th>Payment Method</th>
+                                            <th>Requested</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="5" class="text-center text-muted">
+                                                <i class="fas fa-spinner fa-spin me-2"></i>Loading redemptions...
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- All Redemptions Tab -->
+                <div class="tab-pane fade" id="all-redemptions">
+                    <div class="card fade-in">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5><i class="fas fa-history me-2"></i>All Redemptions</h5>
+                            <div>
+                                <select class="form-select form-select-sm" id="statusFilter">
+                                    <option value="all">All Status</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table" id="allRedemptionsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Teacher</th>
+                                            <th>Amount</th>
+                                            <th>Payment Method</th>
+                                            <th>Status</th>
+                                            <th>Requested</th>
+                                            <th>Approved By</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="6" class="text-center text-muted">
+                                                <i class="fas fa-spinner fa-spin me-2"></i>Loading redemptions...
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Teachers Tab -->
+                <div class="tab-pane fade" id="teachers">
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <h5><i class="fas fa-chalkboard-teacher me-2"></i>All Teachers</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table" id="teachersTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Username</th>
+                                            <th>Full Name</th>
+                                            <th>Email</th>
+                                            <th>Credits</th>
+                                            <th>Referrals</th>
+                                            <th>Joined</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="6" class="text-center text-muted">
+                                                <i class="fas fa-spinner fa-spin me-2"></i>Loading teachers...
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Performers Tab -->
+                <div class="tab-pane fade" id="top-performers">
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <h5><i class="fas fa-trophy me-2"></i>Top Performing Teachers</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table" id="topPerformersTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>Teacher</th>
+                                            <th>Total Referrals</th>
+                                            <th>Credits Earned</th>
+                                            <th>Active Referrals</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="5" class="text-center text-muted">
+                                                <i class="fas fa-spinner fa-spin me-2"></i>Loading top performers...
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Redemption Action Modal -->
+    <div class="modal fade" id="actionModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-gradient-primary text-white">
+                    <h5 class="modal-title" id="actionModalTitle">
+                        <i class="fas fa-check-circle me-2"></i>Process Redemption
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="redemptionDetails"></div>
+                    <form id="actionForm">
+                        <input type="hidden" id="redemptionId" name="redemption_id">
+                        <input type="hidden" id="actionType" name="action">
+                        
+                        <div class="mb-3">
+                            <label for="notes" class="form-label">Notes (Optional)</label>
+                            <textarea class="form-control" id="notes" name="notes" rows="3" 
+                                placeholder="Add any notes about this decision..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn" id="confirmActionBtn">
+                        <span id="actionBtnText">Confirm</span>
+                        <span id="actionSpinner" class="spinner d-none"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../scripts/admin-dashboard.js"></script>
+</body>
+</html>
