@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - NexaLearn Affiliate System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="../styles/styles.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background: var(--gradient-primary);">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-graduation-cap me-2"></i>
+                NexaLearn - Student Portal
+            </a>
+            <div class="navbar-nav ms-auto">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user-circle me-1"></i>
+                        <span id="navUsername">Student</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="container">
+            <div id="alertContainer"></div>
+
+            <!-- Welcome Header -->
+            <div class="dashboard-header slide-up">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h1 class="welcome-text mb-2">Welcome, <span id="studentName">Student</span>!</h1>
+                        <p class="text-muted mb-0">Manage your profile and view your referral information</p>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <button class="btn btn-info" id="refreshDataBtn">
+                            <i class="fas fa-sync-alt me-2"></i>Refresh Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Stats Cards -->
+            <div class="row mb-4">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="stats-card success fade-in">
+                        <div class="stats-number" id="accountStatus">Active</div>
+                        <div class="stats-label">Account Status</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="stats-card info fade-in">
+                        <div class="stats-number" id="referralStatus">No</div>
+                        <div class="stats-label">Referred by Teacher</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="stats-card warning fade-in">
+                        <div class="stats-number" id="joinDate">-</div>
+                        <div class="stats-label">Member Since</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="stats-card fade-in">
+                        <div class="stats-number" id="myReferralCode">-</div>
+                        <div class="stats-label">My Referral Code</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <ul class="nav nav-pills mb-4">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#profile" data-bs-toggle="tab">
+                        <i class="fas fa-user me-2"></i>My Profile
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#referral-info" data-bs-toggle="tab">
+                        <i class="fas fa-users me-2"></i>Referral Information
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#learning-progress" data-bs-toggle="tab">
+                        <i class="fas fa-chart-line me-2"></i>Learning Progress
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Profile Tab -->
+                <div class="tab-pane fade show active" id="profile">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="card fade-in">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-user me-2"></i>Personal Information</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="profileForm">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="profileUsername" class="form-label">
+                                                    <i class="fas fa-user me-2"></i>Username
+                                                </label>
+                                                <input type="text" class="form-control" id="profileUsername" readonly>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="profileEmail" class="form-label">
+                                                    <i class="fas fa-envelope me-2"></i>Email
+                                                </label>
+                                                <input type="email" class="form-control" id="profileEmail" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="profileFullName" class="form-label">
+                                                <i class="fas fa-id-card me-2"></i>Full Name
+                                            </label>
+                                            <input type="text" class="form-control" id="profileFullName">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="profilePhone" class="form-label">
+                                                <i class="fas fa-phone me-2"></i>Phone Number
+                                            </label>
+                                            <input type="tel" class="form-control" id="profilePhone">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="profileReferralCode" class="form-label">
+                                                <i class="fas fa-tag me-2"></i>My Referral Code
+                                            </label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="profileReferralCode" readonly>
+                                                <button class="btn btn-outline-primary" type="button" id="copyReferralBtn">
+                                                    <i class="fas fa-copy me-1"></i>Copy
+                                                </button>
+                                            </div>
+                                            <small class="text-muted">Share this code with friends to help them get started!</small>
+                                        </div>
+                                        <button type="button" class="btn btn-primary" id="updateProfileBtn">
+                                            <i class="fas fa-save me-2"></i>Update Profile
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card fade-in">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-info-circle me-2"></i>Quick Info</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <small class="text-muted">Account Created</small>
+                                        <div id="accountCreated" class="fw-bold">-</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <small class="text-muted">Last Login</small>
+                                        <div id="lastLogin" class="fw-bold">Now</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <small class="text-muted">Account Type</small>
+                                        <div class="fw-bold">
+                                            <span class="badge bg-success">Student</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Referral Information Tab -->
+                <div class="tab-pane fade" id="referral-info">
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <h5><i class="fas fa-users me-2"></i>Referral Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="referralContent">
+                                <div class="text-center">
+                                    <i class="fas fa-spinner fa-spin me-2"></i>Loading referral information...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Progress Tab -->
+                <div class="tab-pane fade" id="learning-progress">
+                    <div class="card fade-in">
+                        <div class="card-header">
+                            <h5><i class="fas fa-chart-line me-2"></i>Learning Progress</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="text-center">
+                                        <h3 class="text-gradient">Coming Soon!</h3>
+                                        <p class="text-muted">We're working on exciting learning features for you:</p>
+                                        <ul class="list-unstyled">
+                                            <li><i class="fas fa-check-circle text-success me-2"></i>Course Progress Tracking</li>
+                                            <li><i class="fas fa-check-circle text-success me-2"></i>Achievement Badges</li>
+                                            <li><i class="fas fa-check-circle text-success me-2"></i>Learning Streaks</li>
+                                            <li><i class="fas fa-check-circle text-success me-2"></i>Skill Assessments</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="stats-card info">
+                                        <div class="stats-number">0</div>
+                                        <div class="stats-label">Courses Completed</div>
+                                    </div>
+                                    <div class="stats-card warning mt-3">
+                                        <div class="stats-number">0</div>
+                                        <div class="stats-label">Hours Studied</div>
+                                    </div>
+                                    <div class="stats-card success mt-3">
+                                        <div class="stats-number">0</div>
+                                        <div class="stats-label">Achievements Earned</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success/Error Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" id="modalHeader">
+                    <h5 class="modal-title" id="modalTitle">
+                        <i class="fas fa-info-circle me-2"></i>Information
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    Message content here
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../scripts/student-dashboard.js"></script>
+</body>
+</html>

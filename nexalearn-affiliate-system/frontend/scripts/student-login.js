@@ -35,9 +35,8 @@ function checkAuthStatus() {
     const userData = localStorage.getItem('studentData');
     
     if (token && userData) {
-        showAlert('info', 'You are already logged in as a student!');
-        // For now, just show success message since we don't have student dashboard
-        return;
+        // Redirect to dashboard if already logged in
+        window.location.href = 'student-dashboard.html';
     }
 }
 
@@ -73,12 +72,12 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             localStorage.setItem('studentToken', result.token);
             localStorage.setItem('studentData', JSON.stringify(result.student));
             
-            showAlert('success', 'Login successful! Welcome to NexaLearn!');
+            showAlert('success', 'Login successful! Redirecting to dashboard...');
             
-            // For now, just show success since student dashboard is not implemented
+            // Redirect to student dashboard
             setTimeout(() => {
-                showAlert('info', 'Student dashboard coming soon! You are now logged in.');
-            }, 2000);
+                window.location.href = 'student-dashboard.html?welcome=true';
+            }, 1500);
         } else {
             showAlert('danger', result.message || 'Login failed. Please try again.');
         }
