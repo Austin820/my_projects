@@ -208,7 +208,7 @@ router.get('/dashboard', authenticateToken, (req, res) => {
                             },
                             referrals,
                             redemptions,
-                            referral_link: `${req.protocol}://${req.get('host')}/signup?ref=${teacher.username}`
+                            referral_link: `${req.protocol}://${req.get('host')}/student-signup.html?ref=${teacher.username}`
                         }
                     });
                 });

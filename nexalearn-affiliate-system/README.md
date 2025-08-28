@@ -1,6 +1,6 @@
-# NexaLearn Affiliate System
+# NexaLearn
 
-A complete full-stack affiliate marketing system built with Node.js, Express, SQLite, and Bootstrap. This system allows teachers to refer students and earn commissions, with full admin oversight.
+**NexaLearn** is a comprehensive full-stack referral-based affiliate education platform built with Node.js, Express, SQLite, and Bootstrap 5. This system enables teachers to refer students and earn commissions through a sophisticated referral system, with complete administrative oversight and management capabilities.
 
 ## 🚀 Features
 
@@ -33,9 +33,11 @@ nexalearn-affiliate-system/
 │   │   └── adminRoutes.js     # Admin API endpoints
 │   ├── db/                    # Database files
 │   │   ├── init.sql          # Database schema
-│   │   └── database.db       # SQLite database (generated)
+│   │   ├── db.js             # Database connection utilities
+│   │   └── database.db       # SQLite database (auto-generated)
 │   ├── server.js             # Main server file
-│   └── package.json          # Dependencies and scripts
+│   ├── package.json          # Dependencies and scripts
+│   └── .env                  # Environment variables
 ├── frontend/                  # Frontend web application
 │   ├── public/               # HTML pages
 │   │   ├── teacher-login.html
@@ -43,21 +45,23 @@ nexalearn-affiliate-system/
 │   │   ├── teacher-dashboard.html
 │   │   ├── student-login.html
 │   │   ├── student-signup.html
+│   │   ├── student-dashboard.html
 │   │   ├── admin-login.html
 │   │   ├── admin-signup.html
 │   │   └── admin-dashboard.html
-│   ├── scripts/              # JavaScript files
+│   ├── scripts/              # JavaScript files (one per page)
 │   │   ├── teacher-login.js
 │   │   ├── teacher-signup.js
 │   │   ├── teacher-dashboard.js
 │   │   ├── student-login.js
 │   │   ├── student-signup.js
+│   │   ├── student-dashboard.js
 │   │   ├── admin-login.js
 │   │   ├── admin-signup.js
 │   │   └── admin-dashboard.js
 │   └── styles/
-│       └── styles.css        # Custom CSS styles
-└── README.md                 # This file
+│       └── styles.css        # Shared Bootstrap 5 + custom styles
+└── README.md                 # This documentation
 ```
 
 ## 🛠️ Installation & Setup
@@ -328,23 +332,61 @@ The application uses SQLite by default. To use a different database:
 2. Update the connection configuration in `server.js`
 3. Modify the SQL queries to match your database syntax
 
-## 🚀 Deployment
+## 🚀 Deployment & Hosting
 
-### Backend Deployment
-1. Set environment variables for production
-2. Install dependencies: `npm install --production`
-3. Initialize database: `npm run init-db`
-4. Start server: `npm start`
+### Local Development
+1. **Backend**: Run `npm start` in the `/backend` directory
+2. **Frontend**: Served automatically via Express static middleware at `http://localhost:3000`
+3. **Alternative Frontend Serving**: Use Live Server extension or `python -m http.server` in `/frontend`
 
-### Frontend Deployment
-The frontend can be deployed to any static hosting service:
-- Netlify
-- Vercel
-- AWS S3
-- GitHub Pages
-- Or served by the backend
+### Production Hosting
 
-Update the `API_BASE` constant in JavaScript files to point to your production backend URL.
+#### Backend Hosting Options
+- **Render**: Deploy Node.js app directly from GitHub
+- **Railway**: Simple Node.js deployment with database
+- **Heroku**: Classic PaaS for Node.js applications
+- **DigitalOcean App Platform**: Modern containerized deployment
+
+#### Frontend Hosting Options
+- **Vercel**: Perfect for static frontend with API integration
+- **Netlify**: Static hosting with form handling and redirects  
+- **Express Static**: Serve via backend (recommended for simplicity)
+- **AWS S3 + CloudFront**: Enterprise-grade static hosting
+
+#### Environment Configuration
+1. **Create `.env` file** in backend directory:
+   ```env
+   PORT=3000
+   JWT_SECRET=your-production-secret-key
+   NODE_ENV=production
+   ```
+
+2. **Update API URLs** in frontend JavaScript files:
+   ```javascript
+   const API_BASE = 'https://your-backend-domain.com/api';
+   ```
+
+3. **Security Notes**:
+   - Never expose JWT secrets in frontend code
+   - Use environment variables for all sensitive data
+   - Enable HTTPS in production
+   - Configure CORS for your frontend domain
+
+#### Quick Deploy Steps
+1. **Backend to Render/Railway**:
+   - Connect GitHub repository
+   - Set environment variables
+   - Deploy automatically
+
+2. **Frontend to Vercel/Netlify**:
+   - Connect GitHub repository  
+   - Update API_BASE URLs
+   - Deploy with build command (if needed)
+
+3. **All-in-one with Express**:
+   - Deploy backend with static file serving
+   - Single deployment, single domain
+   - Simpler configuration and management
 
 ## 🧪 Testing
 
